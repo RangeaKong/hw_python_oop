@@ -123,7 +123,7 @@ class Swimming(Training):
                 * self.SWIMMING_SPEED_MULTIPLIER * self.weight * self.duration)
 
 
-def read_package(workout_type: str, data: list[int]) -> Training:
+def read_package(workout_type: str, data: List[int]) -> Training:
     """Прочитать данные полученные от датчиков."""
     acceptable_types: dict[str, Type[Training]] = {'SWM': Swimming,
                                                    'RUN': Running,
@@ -141,7 +141,7 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    packages: List[tuple[str, list]] = [
+    packages: List[tuple] = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [3000, 2.512, 75.8, 180.1]),
