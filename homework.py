@@ -1,4 +1,4 @@
-from typing import Type, List, Sequence
+from typing import Type, List
 from dataclasses import dataclass, asdict
 
 
