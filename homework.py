@@ -1,28 +1,23 @@
-from typing import Type
-from typing import List
+from typing import Type, List
+from dataclasses import dataclass, asdict
 
 
+@dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
 
-    def __init__(self,
-                 training_type: str,
-                 duration: float,
-                 distance: float,
-                 speed: float,
-                 calories: float) -> None:
-        self.training_type = training_type
-        self.duration = duration
-        self.speed = speed
-        self.distance = distance
-        self.calories = calories
+    training_type: str
+    duration: float
+    distance: float
+    speed: float
+    calories: float
+    message = ('Тип тренировки {training_type}; Длительность: {duration:.3f} '
+               'Дистанция: {distance:.3f} км; Ср. скорость: {speed:.3f} км/ч;'
+               'Потрачено ккал: {calories:.3f}. '
+               )
 
     def get_message(self) -> str:
-        return (f'Тип тренировки: {self.training_type}; '
-                f'Длительность: {self.duration:.3f} ч.; '
-                f'Дистанция: {self.distance:.3f} км; '
-                f'Ср. скорость: {self.speed:.3f} км/ч; '
-                f'Потрачено ккал: {self.calories:.3f}.')
+        return self.message.format(**asdict(self))
 
 
 class Training:
@@ -127,15 +122,15 @@ class Swimming(Training):
                 * self.SWIMMING_SPEED_MULTIPLIER * self.weight * self.duration)
 
 
-def read_package(workout_type: str, data: list) -> Training:
+def read_package(workout_type: str, data: list[int]) -> Training:
     """Прочитать данные полученные от датчиков."""
-    workout_types: dict[str, Type[Training]] = {'SWM': Swimming,
-                                                'RUN': Running,
-                                                'WLK': SportsWalking
-                                                }
-    if workout_type in workout_types:
-        return workout_types[workout_type](*data)
-    raise TypeError('Incorretct Type')
+    acceptable_types: dict[str, Type[Training]] = {'SWM': Swimming,
+                                                   'RUN': Running,
+                                                   'WLK': SportsWalking
+                                                   }
+    if workout_type in acceptable_types:
+        return acceptable_types[workout_type](*data)
+    raise TypeError('Acceptable_types: Incorrect Value.')
 
 
 def main(training: Training) -> None:
@@ -145,7 +140,7 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    packages: List[tuple] = [
+    packages: List[tuple[str, list]] = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [3000, 2.512, 75.8, 180.1]),
