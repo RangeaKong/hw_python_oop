@@ -1,4 +1,4 @@
-from typing import Type, List
+from typing import Type, List, Sequence
 from dataclasses import dataclass, asdict
 
 
@@ -123,7 +123,7 @@ class Swimming(Training):
                 * self.SWIMMING_SPEED_MULTIPLIER * self.weight * self.duration)
 
 
-def read_package(workout_type: str, data: list[int]) -> Training:
+def read_package(workout_type: str, data: Sequence[int]) -> Training:
     """Прочитать данные полученные от датчиков."""
     acceptable_types: dict[str, Type[Training]] = {'SWM': Swimming,
                                                    'RUN': Running,
