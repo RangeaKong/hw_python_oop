@@ -40,7 +40,6 @@ class Training:
         self.duration = duration
         self.weight = weight
 
-
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
         return self.action * self.LEN_STEP / self.M_IN_KM
@@ -67,19 +66,21 @@ class Training:
 
 class Running(Training):
     """Тренировка: бег."""
-    CALORIES_MEAN_SPEED_MULTIPLIER = 18
-    CALORIES_MEAN_SPEED_SHIFT = 1.79
+    CALORIES_MEAN_SPEED_MULTIPLIER: int = 18
+    CALORIES_MEAN_SPEED_SHIFT: float = 1.79
 
     def get_spent_calories(self) -> float:
-        return (self.CALORIES_MEAN_SPEED_MULTIPLIER * self.get_mean_speed() + self.CALORIES_MEAN_SPEED_SHIFT) * self.weight / self.M_IN_KM * (self.duration * 60)
+        return ((self.CALORIES_MEAN_SPEED_MULTIPLIER * self.get_mean_speed()
+                + self.CALORIES_MEAN_SPEED_SHIFT) * self.weight / self.M_IN_KM
+                * (self.duration * 60))
 
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
-    MULTIPLIER = 0.035
-    SQUARE_AVG = 0.029
+    MULTIPLIER: float = 0.035
+    SQUARE_AVG: float = 0.029
     KM_IN_MS = round(1000 / 3600, 3)
-    M_IN_SM = 100
+    M_IN_SM: int = 100
 
     def __init__(self,
                  action: int,
@@ -118,10 +119,12 @@ class Swimming(Training):
         self.count_pool: float = count_pool
 
     def get_mean_speed(self) -> float:
-        return self.length_pool * self.count_pool / self.M_IN_KM / self.duration
+        return (self.length_pool * self.count_pool
+                / self.M_IN_KM / self.duration)
 
     def get_spent_calories(self) -> float:
-        return (self.get_mean_speed() + self.SWIMMING_SPEED_OFFSET) * self.SWIMMING_SPEED_MULTIPLIER * self.weight * self.duration
+        return ((self.get_mean_speed() + self.SWIMMING_SPEED_OFFSET)
+                * self.SWIMMING_SPEED_MULTIPLIER * self.weight * self.duration)
 
 
 def read_package(workout_type: str, data: list) -> Training:
@@ -135,7 +138,6 @@ def read_package(workout_type: str, data: list) -> Training:
     raise TypeError('Incorretct Type')
 
 
-
 def main(training: Training) -> None:
     """Главная функция."""
     info: InfoMessage = training.show_training_info()
@@ -143,10 +145,10 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    packages = [
+    packages: List[tuple] = [
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
-        ('WLK', [3000.33, 2.512, 75.8, 180.1]),
+        ('WLK', [3000, 2.512, 75.8, 180.1]),
     ]
 
     for workout_type, data in packages:
