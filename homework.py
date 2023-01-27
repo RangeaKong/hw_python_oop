@@ -46,7 +46,8 @@ class Training:
 
     def get_spent_calories(self):
         """Получить количество затраченных калорий."""
-        raise NotImplementedError("Class:Training - method get_spent_calories not implemented.")
+        raise NotImplementedError(f'{self.__class__.__name__} - method '
+                                  f'get_spent_calories not implemented.')
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
