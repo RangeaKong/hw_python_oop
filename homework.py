@@ -11,14 +11,14 @@ class InfoMessage:
     distance: float
     speed: float
     calories: float
-    message = ('Тип тренировки: {training_type}; '
+    MESSAGE = ('Тип тренировки: {training_type}; '
                'Длительность: {duration:.3f} ч.; '
                'Дистанция: {distance:.3f} км; Ср. скорость: {speed:.3f} км/ч; '
                'Потрачено ккал: {calories:.3f}.'
                )
 
     def get_message(self) -> str:
-        return self.message.format(**asdict(self))
+        return self.MESSAGE.format(**asdict(self))
 
 
 class Training:
@@ -46,18 +46,17 @@ class Training:
 
     def get_spent_calories(self):
         """Получить количество затраченных калорий."""
-        pass
+        raise NotImplementedError("Method get_spent_calories not implemented.")
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
 
-        message: InfoMessage = InfoMessage(str(self.__class__.__name__),
-                                           self.duration,
-                                           self.get_distance(),
-                                           self.get_mean_speed(),
-                                           self.get_spent_calories()
-                                           )
-        return message
+        return InfoMessage(str(self.__class__.__name__),
+                           self.duration,
+                           self.get_distance(),
+                           self.get_mean_speed(),
+                           self.get_spent_calories()
+                           )
 
 
 class Running(Training):
